@@ -30,4 +30,21 @@ final class BlogPageTest extends BrowserTestBase {
     $assert->pageTextContains('Welcome to my blog!');
   }
 
+  /** @test */
+  public function it_shows_articles(): void {
+    $this->createContentType(['type' => 'article']);
+
+    $this->createNode([
+      'title' => 'This is a test article',
+      'type' => 'article',
+    ]);
+
+    $this->drupalGet('/blog');
+
+    $assert = $this->assertSession();
+
+    $assert->statusCodeEquals(Response::HTTP_OK);
+    $assert->pageTextContains('This is a test article');
+  }
+
 }
